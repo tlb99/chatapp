@@ -1,0 +1,18 @@
+<div class="chatbot">
+  <div class="messages">
+    @for (msg of messages; track msg.sender) {
+      <div>
+        {{ msg.text }}
+      </div>
+    }
+  </div>
+  <form (ngSubmit)="sendMessage()">
+    <input
+      type="text"
+      name="message"
+      placeholder="Type a message..."
+      required
+      [(ngModel)]="input" />
+    <button type="submit">Send</button>
+  </form>
+</div>
