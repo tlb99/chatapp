@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   backend:
     build: ./backend
@@ -12,10 +10,11 @@ services:
       - DEBUG=False
     depends_on:
       - db
-      - frontend
 
   frontend:
     build: ./frontend
+    ports:
+      - "80:80"
     volumes:
       - static-files:/usr/src/app/frontend/build
 

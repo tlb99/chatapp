@@ -17,10 +17,13 @@ RUN npm run build --prod
 FROM nginx:latest
 
 # Copy the Nginx configuration file
-COPY ./nginx.conf /etc/nginx/nginx.conf
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy the build output to the Nginx html directory
 COPY --from=build /usr/src/app/dist/frontend/browser /usr/share/nginx/html
+COPY --from=build /usr/src/app/dist/frontend/browser /usr/src/app/frontend/build
 
 # Expose port 80
 EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
