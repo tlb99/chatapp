@@ -21,7 +21,7 @@ export class ChatbotComponent {
     const userMessage = { sender: 'user', text: this.input };
     this.messages.push(userMessage);
     this.input = '';
-    console.log(userMessage.text);
+    //console.log(userMessage.text);
 
     this.http.post<{ reply: string }>('http://localhost:8000/api/chat', { message: userMessage.text })
       .subscribe(response => {
