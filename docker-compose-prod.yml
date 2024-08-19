@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    volumes:
+      - ./backend:/usr/src/app
+      - static-files:/usr/src/app/frontend/build
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=False
+    depends_on:
+      - db
+      - frontend
+
+  frontend:
+    build: ./frontend
+    volumes:
+      - static-files:/usr/src/app/frontend/build
+
+volumes:
+  static-files:
