@@ -1,0 +1,22 @@
+services:
+  backend:
+    build: ./backend
+    volumes:
+      - ./backend:/usr/src/app
+      - static-files:/usr/src/app/frontend/build
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=False
+    depends_on:
+      - db
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "80:80"
+    volumes:
+      - static-files:/usr/src/app/frontend/build
+
+volumes:
+  static-files:

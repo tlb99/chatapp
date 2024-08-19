@@ -1,5 +1,5 @@
 # Use an official Node.js runtime as a parent image
-FROM node:latest
+FROM node:22 as build
 
 # Set the working directory in the container
 WORKDIR /usr/src/app
@@ -11,11 +11,19 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
-RUN npm install -g @angular/cli
+RUN npm run build --prod
 
-RUN npm install
+# Use an official Nginx runtime as a parent image
+FROM nginx:latest
 
-CMD ["ng", "serve", "--host", "0.0.0.0"]
+# Copy the Nginx configuration file
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 
-# Expose port 4200
-EXPOSE 4200
+# Copy the build output to the Nginx html directory
+COPY --from=build /usr/src/app/dist/frontend/browser /usr/share/nginx/html
+COPY --from=build /usr/src/app/dist/frontend/browser /usr/src/app/frontend/build
+
+# Expose port 80
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

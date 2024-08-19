@@ -13,10 +13,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Set the working directory in the container
 WORKDIR /usr/src/app/my_django_app
 
-RUN python manage.py collectstatic --noinput
-
 # Make port 8000 available to the world outside this container
 EXPOSE 8000
 
 # Run the Django development server
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "chatbotsite.wsgi:application"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
